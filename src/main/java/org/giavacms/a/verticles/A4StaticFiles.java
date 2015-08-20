@@ -27,6 +27,7 @@ public class A4StaticFiles extends AbstractVerticle
       // be served without you having to restart the main()
       // This is only useful for development - do not use this in a production server
       System.setProperty("vertx.disableFileCaching", "true");
+      System.setProperty("cwd", "/Users/fiorenzo/a/src/main/resources");
       Runner.run(A4StaticFiles.class);
    }
 
@@ -46,11 +47,7 @@ public class A4StaticFiles extends AbstractVerticle
       }
 
       // Serve the static pages
-      router.route("/a4/*").handler(StaticHandler.create("webroot"));
-      router.route("/").handler(ctx -> {
-         logger.info("Got an HTTP request to /");
-         ctx.response().sendFile("webroot/a4/index.html").end();
-      });
+      router.route("/a4/*").handler(StaticHandler.create());
 
       vertx.createHttpServer().requestHandler(router::accept).listen(8080);
 
